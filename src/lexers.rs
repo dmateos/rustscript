@@ -1,7 +1,10 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Token {
     ADD,
     MULT,
+    //IDENT,
+    //ASSIGN,
+    SEMICOLON,
     Number(i64),
 }
 
@@ -48,7 +51,10 @@ impl Lexer {
                     self.advance();
                     return Some(Token::MULT);
                 }
-
+                ';' => {
+                    self.advance();
+                    return Some(Token::SEMICOLON);
+                }
                 _ => {
                     self.advance();
                 }

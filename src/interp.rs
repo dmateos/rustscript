@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub enum Instruction {
     ADD,
     MULT,
@@ -31,13 +32,13 @@ impl VirtualMachine {
                 Instruction::ADD => {
                     let var1 = self.stack.pop().unwrap();
                     let var2 = self.stack.pop().unwrap();
-                    println!("adding {} and {}", var1, var2);
+                    //println!("adding {} and {}", var1, var2);
                     self.stack.push(var1 + var2);
                 }
                 Instruction::MULT => {
                     let var1 = self.stack.pop().unwrap();
                     let var2 = self.stack.pop().unwrap();
-                    println!("multing {} and {}", var1, var2);
+                    //println!("multing {} and {}", var1, var2);
                     self.stack.push(var1 * var2);
                 }
                 Instruction::PRINT => {
@@ -45,11 +46,12 @@ impl VirtualMachine {
                     println!("{}", var);
                 }
                 Instruction::END => {
+                    //println!("stopping ");
                     break;
                 }
                 Instruction::PUSH(n) => {
+                    //println!("pushing {}", n);
                     self.stack.push(n);
-                    println!("pushing {}", n);
                 }
             }
             self.advance();
@@ -58,5 +60,16 @@ impl VirtualMachine {
 
     pub fn add_instruction(&mut self, instruction: Instruction) {
         self.instructions.push(instruction);
+    }
+
+    pub fn clear_instructions(&mut self) {
+        self.instructions.clear();
+        self.instruction_pointer = 0;
+    }
+
+    pub fn print_instructions(&self) {
+        for (i, instruction) in self.instructions.iter().enumerate() {
+            println!("{}: {:?}", i, instruction);
+        }
     }
 }

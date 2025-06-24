@@ -17,6 +17,20 @@ fn to_instruction(token: &Token) -> Instruction {
     }
 }
 
+pub fn split_into_expressions(tokens: Vec<Token>) -> Vec<Vec<Token>> {
+    let mut buffer = Vec::new();
+    let mut sub_buffer = Vec::new();
+
+    for t in tokens {
+        if t != Token::SEMICOLON {
+            sub_buffer.push(t);
+        } else {
+            buffer.push(std::mem::take(&mut sub_buffer));
+        }
+    }
+    buffer
+}
+
 pub fn eval_numerical_expression(tokens: Vec<Token>) -> Vec<Instruction> {
     let mut opq = Vec::new();
     let mut outq = Vec::new();
@@ -36,6 +50,9 @@ pub fn eval_numerical_expression(tokens: Vec<Token>) -> Vec<Instruction> {
                     }
                 }
                 opq.push(token);
+            }
+            _ => {
+                panic!("Not implemented");
             }
         }
     }
