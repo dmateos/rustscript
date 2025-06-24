@@ -1,8 +1,9 @@
 pub enum Instruction {
-    ADD = 0,
+    ADD,
     MULT,
     PRINT,
     END,
+    PUSH(i64),
 }
 
 pub struct VirtualMachine {
@@ -46,6 +47,10 @@ impl VirtualMachine {
                 Instruction::END => {
                     break;
                 }
+                Instruction::PUSH(n) => {
+                    self.stack.push(n);
+                    println!("pushing {}", n);
+                }
             }
             self.advance();
         }
@@ -53,9 +58,5 @@ impl VirtualMachine {
 
     pub fn add_instruction(&mut self, instruction: Instruction) {
         self.instructions.push(instruction);
-    }
-
-    pub fn stack_push(&mut self, value: i64) {
-        self.stack.push(value);
     }
 }
