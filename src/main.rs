@@ -13,12 +13,12 @@ fn main() {
     for e in expressions {
         let parsed = parser::eval_numerical_expression(e);
         for p in parsed {
-            vm.add_instruction(p);
+            vm.push(p);
         }
-        vm.add_instruction(Instruction::PRINT);
-        vm.add_instruction(Instruction::END);
+        vm.push(Instruction::PRINT);
+        vm.push(Instruction::END);
         //vm.print_instructions();
         vm.run();
-        vm.clear_instructions();
+        vm.reset();
     }
 }

@@ -58,11 +58,11 @@ impl VirtualMachine {
         }
     }
 
-    pub fn add_instruction(&mut self, instruction: Instruction) {
+    pub fn push(&mut self, instruction: Instruction) {
         self.instructions.push(instruction);
     }
 
-    pub fn clear_instructions(&mut self) {
+    pub fn reset(&mut self) {
         self.instructions.clear();
         self.instruction_pointer = 0;
     }
