@@ -2,9 +2,9 @@
 pub enum Token {
     ADD,
     MULT,
-    //IDENT,
-    //ASSIGN,
+    ASSIGN,
     SEMICOLON,
+    Ident(String),
     Number(i64),
 }
 
@@ -43,6 +43,9 @@ impl Lexer {
                 '0'..='9' => {
                     return Some(Token::Number(self.lex_number().unwrap()));
                 }
+                'A'..='z' => {
+                    return Some(Token::Ident(self.lex_identifier()));
+                }
                 '+' => {
                     self.advance();
                     return Some(Token::ADD);
@@ -54,6 +57,10 @@ impl Lexer {
                 ';' => {
                     self.advance();
                     return Some(Token::SEMICOLON);
+                }
+                '=' => {
+                    self.advance();
+                    return Some(Token::ASSIGN);
                 }
                 _ => {
                     self.advance();
@@ -79,5 +86,22 @@ impl Lexer {
 
         let numstr: String = self.input[start..self.position].iter().collect();
         numstr.parse::<i64>()
+    }
+
+    fn lex_identifier(&mut self) -> String {
+        let start = self.position;
+
+        while let Some(ch) = self.peek() {
+            match ch {
+                'A'..='z' => {
+                    self.advance();
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+        let identstr: String = self.input[start..self.position].iter().collect();
+        identstr
     }
 }

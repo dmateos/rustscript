@@ -17,7 +17,12 @@ fn to_instruction(token: &Token) -> Instruction {
     }
 }
 
-pub fn split_into_expressions(tokens: Vec<Token>) -> Vec<Vec<Token>> {
+enum Statement {
+    Assignment(String, Vec<Instruction>),
+    Expression(Vec<Instruction>),
+}
+
+pub fn split_into_statements(tokens: Vec<Token>) -> Vec<Vec<Token>> {
     let mut buffer = Vec::new();
     let mut sub_buffer = Vec::new();
 
@@ -35,7 +40,17 @@ pub fn split_into_expressions(tokens: Vec<Token>) -> Vec<Vec<Token>> {
     buffer
 }
 
-pub fn eval_numerical_expression(tokens: Vec<Token>) -> Vec<Instruction> {
+fn parse_statement(tokens: &[Token]) -> Statement {
+    match tokens {
+        [Token::Ident(name), Token::ASSIGN, rest @ ..] => {
+            let expr = parse_expression(rest.to_vec());
+            Statement::Assignment(name.to_string(), expr)
+        }
+        _ => Statement::Expression(parse_expression(tokens.to_vec())),
+    }
+}
+
+pub fn parse_expression(tokens: Vec<Token>) -> Vec<Instruction> {
     let mut opq = Vec::new();
     let mut outq = Vec::new();
 
@@ -55,8 +70,11 @@ pub fn eval_numerical_expression(tokens: Vec<Token>) -> Vec<Instruction> {
                 }
                 opq.push(token);
             }
+            Token::Ident(n) => {
+                outq.push(Instruction::LOAD(n));
+            }
             _ => {
-                panic!("Not implemented");
+                println!("Parser: Not implemented {:?}", token);
             }
         }
     }
