@@ -22,10 +22,14 @@ pub fn split_into_expressions(tokens: Vec<Token>) -> Vec<Vec<Token>> {
     let mut sub_buffer = Vec::new();
 
     for t in tokens {
-        if t != Token::SEMICOLON {
-            sub_buffer.push(t);
-        } else {
-            buffer.push(std::mem::take(&mut sub_buffer));
+        match t {
+            Token::SEMICOLON => {
+                buffer.push(sub_buffer);
+                sub_buffer = Vec::new();
+            }
+            _ => {
+                sub_buffer.push(t);
+            }
         }
     }
     buffer
