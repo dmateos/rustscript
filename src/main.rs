@@ -10,7 +10,7 @@ fn main() {
     let mut vm = interp::VirtualMachine::new();
     let expressions = parser::split_into_statements(lexer.collect());
 
-    vm.tmp_addsymbol("x", 25);
+    vm.push(Instruction::STORE("x".to_string(), 10));
 
     for e in expressions {
         let parsed = parser::parse_expression(e);

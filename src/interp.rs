@@ -8,7 +8,7 @@ pub enum Instruction {
     END,
     PUSH(i64),
     LOAD(String),
-    //    STORE(&str),
+    STORE(String, i64),
 }
 
 pub struct VirtualMachine {
@@ -26,10 +26,6 @@ impl VirtualMachine {
             symbol_table: HashMap::new(),
             instruction_pointer: 0,
         }
-    }
-
-    pub fn tmp_addsymbol(&mut self, s: &str, value: i64) {
-        self.symbol_table.insert(s.to_string(), value);
     }
 
     fn advance(&mut self) {
@@ -64,8 +60,10 @@ impl VirtualMachine {
                     self.stack.push(*n);
                 }
                 Instruction::LOAD(s) => {
-                    println!("loading {}", s);
                     self.stack.push(*self.symbol_table.get(s).unwrap());
+                }
+                Instruction::STORE(s, v) => {
+                    self.symbol_table.insert(s.to_string(), *v);
                 }
             }
             self.advance();
