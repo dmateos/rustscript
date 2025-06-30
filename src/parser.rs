@@ -3,16 +3,16 @@ use crate::lexers::Token;
 
 fn op_order(op: &Token) -> u8 {
     match op {
-        Token::ADD => 1,
-        Token::MULT => 2,
+        Token::Add => 1,
+        Token::Mult => 2,
         _ => 0,
     }
 }
 
 fn to_instruction(token: &Token) -> Instruction {
     match token {
-        Token::ADD => Instruction::ADD,
-        Token::MULT => Instruction::MULT,
+        Token::Add => Instruction::Add,
+        Token::Mult => Instruction::Mult,
         _ => panic!("Not an operator"),
     }
 }
@@ -28,7 +28,7 @@ pub fn split_into_statements(tokens: Vec<Token>) -> Vec<Vec<Token>> {
 
     for t in tokens {
         match t {
-            Token::SEMICOLON => {
+            Token::Semicolon => {
                 buffer.push(sub_buffer);
                 sub_buffer = Vec::new();
             }
@@ -42,7 +42,7 @@ pub fn split_into_statements(tokens: Vec<Token>) -> Vec<Vec<Token>> {
 
 fn parse_statement(tokens: &[Token]) -> Statement {
     match tokens {
-        [Token::Ident(name), Token::ASSIGN, rest @ ..] => {
+        [Token::Ident(name), Token::Assign, rest @ ..] => {
             let expr = parse_expression(rest.to_vec());
             Statement::Assignment(name.to_string(), expr)
         }
@@ -57,9 +57,9 @@ pub fn parse_expression(tokens: Vec<Token>) -> Vec<Instruction> {
     for token in tokens {
         match token {
             Token::Number(n) => {
-                outq.push(Instruction::PUSH(n));
+                outq.push(Instruction::Push(n));
             }
-            Token::ADD | Token::MULT => {
+            Token::Add | Token::Mult => {
                 while let Some(top) = opq.last() {
                     if op_order(top) >= op_order(&token) {
                         let op = opq.pop().unwrap();
@@ -71,7 +71,7 @@ pub fn parse_expression(tokens: Vec<Token>) -> Vec<Instruction> {
                 opq.push(token);
             }
             Token::Ident(n) => {
-                outq.push(Instruction::LOAD(n));
+                outq.push(Instruction::Load(n));
             }
             _ => {
                 println!("Parser: Not implemented {:?}", token);

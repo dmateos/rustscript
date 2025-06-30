@@ -1,9 +1,9 @@
 #[derive(Debug, PartialEq, Clone)]
 pub enum Token {
-    ADD,
-    MULT,
-    ASSIGN,
-    SEMICOLON,
+    Add,
+    Mult,
+    Assign,
+    Semicolon,
     Ident(String),
     Number(i64),
 }
@@ -48,19 +48,19 @@ impl Lexer {
                 }
                 '+' => {
                     self.advance();
-                    return Some(Token::ADD);
+                    return Some(Token::Add);
                 }
                 '*' => {
                     self.advance();
-                    return Some(Token::MULT);
+                    return Some(Token::Mult);
                 }
                 ';' => {
                     self.advance();
-                    return Some(Token::SEMICOLON);
+                    return Some(Token::Semicolon);
                 }
                 '=' => {
                     self.advance();
-                    return Some(Token::ASSIGN);
+                    return Some(Token::Assign);
                 }
                 _ => {
                     self.advance();
