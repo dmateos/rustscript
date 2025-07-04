@@ -13,7 +13,7 @@ fn to_instruction(token: &Token) -> Instruction {
     match token {
         Token::Add => Instruction::Add,
         Token::Mult => Instruction::Mult,
-        _ => panic!("Not an operator"),
+        _ => panic!("Not an operator {:?}", token),
     }
 }
 
@@ -72,6 +72,20 @@ pub fn parse_expression(tokens: Vec<Token>) -> Vec<Instruction> {
             }
             Token::Ident(n) => {
                 outq.push(Instruction::Load(n));
+            }
+            Token::OpenParen => { 
+                opq.push(token);
+            }
+            Token::CloseParen => { 
+                while let Some(top) = opq.last() {
+                    if top != &Token::OpenParen {
+                        let op = opq.pop().unwrap();
+                        outq.push(to_instruction(&op))
+                    } else {
+                        opq.pop();
+                        break;
+                    }
+                }
             }
             _ => {
                 println!("Parser: Not implemented {:?}", token);

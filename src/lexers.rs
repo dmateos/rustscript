@@ -4,6 +4,8 @@ pub enum Token {
     Mult,
     Assign,
     Semicolon,
+    OpenParen,
+    CloseParen,
     Ident(String),
     Number(i64),
 }
@@ -61,6 +63,14 @@ impl Lexer {
                 '=' => {
                     self.advance();
                     return Some(Token::Assign);
+                }
+                '(' => {
+                    self.advance();
+                    return Some(Token::OpenParen);
+                }
+                ')' => {
+                    self.advance();
+                    return Some(Token::CloseParen);
                 }
                 _ => {
                     self.advance();
