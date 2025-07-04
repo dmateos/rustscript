@@ -10,6 +10,7 @@ pub enum Token {
     CloseParen,
     Ident(String),
     Number(i64),
+    Function(String),
 }
 
 pub struct Lexer {
@@ -48,7 +49,7 @@ impl Lexer {
                     return Some(Token::Number(self.lex_number().unwrap()));
                 }
                 'A'..='z' => {
-                    return Some(Token::Ident(self.lex_identifier()));
+                    return Some(self.lex_identifier());
                 }
                 '+' => {
                     self.advance();
@@ -108,7 +109,7 @@ impl Lexer {
         numstr.parse::<i64>()
     }
 
-    fn lex_identifier(&mut self) -> String {
+    fn lex_identifier(&mut self) -> Token {
         let start = self.position;
 
         while let Some(ch) = self.peek() {
@@ -122,6 +123,13 @@ impl Lexer {
             }
         }
         let identstr: String = self.input[start..self.position].iter().collect();
-        identstr
+        self.match_reserved(&identstr)
+    }
+
+    fn match_reserved(&self, ident: &str) -> Token {
+        match ident {
+            "func" => Token::Function(ident.to_string()),
+            _ => Token::Ident(ident.to_string())
+        }
     }
 }

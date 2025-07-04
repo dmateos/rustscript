@@ -1,5 +1,8 @@
 use std::collections::HashMap;
 
+#[cfg(test)]
+mod tests;
+
 #[derive(Debug)]
 pub enum Instruction {
     Add,
@@ -101,3 +104,5 @@ impl VirtualMachine {
         }
     }
 }
+
+
