@@ -2,6 +2,8 @@
 pub enum Token {
     Add,
     Mult,
+    Div,
+    Sub,
     Assign,
     Semicolon,
     OpenParen,
@@ -55,6 +57,14 @@ impl Lexer {
                 '*' => {
                     self.advance();
                     return Some(Token::Mult);
+                }
+                '/' => {
+                    self.advance();
+                    return Some(Token::Div);
+                }
+                '-' => {
+                    self.advance();
+                    return Some(Token::Sub);
                 }
                 ';' => {
                     self.advance();

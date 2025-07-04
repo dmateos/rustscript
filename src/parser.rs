@@ -4,7 +4,9 @@ use crate::lexers::Token;
 fn op_order(op: &Token) -> u8 {
     match op {
         Token::Add => 1,
-        Token::Mult => 2,
+        Token::Sub => 2,
+        Token::Div => 3,
+        Token::Mult => 4,
         _ => 0,
     }
 }
@@ -13,6 +15,8 @@ fn to_instruction(token: &Token) -> Instruction {
     match token {
         Token::Add => Instruction::Add,
         Token::Mult => Instruction::Mult,
+        Token::Div => Instruction::Div,
+        Token::Sub => Instruction::Sub,
         _ => panic!("Not an operator {:?}", token),
     }
 }
@@ -59,7 +63,7 @@ pub fn parse_expression(tokens: Vec<Token>) -> Vec<Instruction> {
             Token::Number(n) => {
                 outq.push(Instruction::Push(n));
             }
-            Token::Add | Token::Mult => {
+            Token::Add | Token::Mult | Token::Div | Token::Sub => {
                 while let Some(top) = opq.last() {
                     if op_order(top) >= op_order(&token) {
                         let op = opq.pop().unwrap();

@@ -4,6 +4,8 @@ use std::collections::HashMap;
 pub enum Instruction {
     Add,
     Mult,
+    Div,
+    Sub,
     Print,
     End,
     Push(i64),
@@ -39,13 +41,25 @@ impl VirtualMachine {
                     let var1 = self.stack.pop().unwrap();
                     let var2 = self.stack.pop().unwrap();
                     //println!("adding {} and {}", var1, var2);
-                    self.stack.push(var1 + var2);
+                    self.stack.push(var2 + var1);
                 }
                 Instruction::Mult => {
                     let var1 = self.stack.pop().unwrap();
                     let var2 = self.stack.pop().unwrap();
                     //println!("multing {} and {}", var1, var2);
-                    self.stack.push(var1 * var2);
+                    self.stack.push(var2 * var1);
+                }
+                Instruction::Div => {
+                    let var1 = self.stack.pop().unwrap();
+                    let var2 = self.stack.pop().unwrap();
+                    //println!("dividing {} and {}", var1, var2);
+                    self.stack.push(var2 / var1);
+                }
+                Instruction::Sub => {
+                    let var1 = self.stack.pop().unwrap();
+                    let var2 = self.stack.pop().unwrap();
+                    //println!("subtracting {} and {}", var1, var2);
+                    self.stack.push(var2 - var1);
                 }
                 Instruction::Print => {
                     let var = self.stack.pop().unwrap_or(0);
