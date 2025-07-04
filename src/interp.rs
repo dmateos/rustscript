@@ -10,7 +10,7 @@ pub enum Instruction {
     End,
     Push(i64),
     Load(String),
-    Store(String, i64),
+    Store(String),
 }
 
 pub struct VirtualMachine {
@@ -76,8 +76,9 @@ impl VirtualMachine {
                 Instruction::Load(s) => {
                     self.stack.push(*self.symbol_table.get(s).unwrap());
                 }
-                Instruction::Store(s, v) => {
-                    self.symbol_table.insert(s.to_string(), *v);
+                Instruction::Store(s) => {
+                    let var = self.stack.pop().unwrap();
+                    self.symbol_table.insert(s.to_string(), var);
                 }
             }
             self.advance();

@@ -21,11 +21,6 @@ fn to_instruction(token: &Token) -> Instruction {
     }
 }
 
-enum Statement {
-    Assignment(String, Vec<Instruction>),
-    Expression(Vec<Instruction>),
-}
-
 pub fn split_into_statements(tokens: Vec<Token>) -> Vec<Vec<Token>> {
     let mut buffer = Vec::new();
     let mut sub_buffer = Vec::new();
@@ -44,17 +39,21 @@ pub fn split_into_statements(tokens: Vec<Token>) -> Vec<Vec<Token>> {
     buffer
 }
 
-fn parse_statement(tokens: &[Token]) -> Statement {
+pub fn parse_statement(tokens: &[Token]) -> Vec<Instruction>  {
     match tokens {
         [Token::Ident(name), Token::Assign, rest @ ..] => {
-            let expr = parse_expression(rest.to_vec());
-            Statement::Assignment(name.to_string(), expr)
+            let mut instructions = parse_expression(rest.to_vec());
+            instructions.push(Instruction::Store(name.to_string()));
+            instructions
+
         }
-        _ => Statement::Expression(parse_expression(tokens.to_vec())),
+        _ => { 
+            parse_expression(tokens.to_vec())
+        },
     }
 }
 
-pub fn parse_expression(tokens: Vec<Token>) -> Vec<Instruction> {
+fn parse_expression(tokens: Vec<Token>) -> Vec<Instruction> {
     let mut opq = Vec::new();
     let mut outq = Vec::new();
 

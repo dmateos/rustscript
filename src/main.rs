@@ -8,13 +8,10 @@ fn main() {
     let input = std::env::args().nth(1).expect("No input provided");
     let lexer = lexers::Lexer::new(&input);
     let mut vm = interp::VirtualMachine::new();
+
     let statements = parser::split_into_statements(lexer.collect());
-
-    vm.push(Instruction::Store("x".to_string(), 10));
-    vm.push(Instruction::Store("y".to_string(), 10));
-
     for e in statements {
-        let parsed = parser::parse_expression(e);
+        let parsed = parser::parse_statement(&e);
         for p in parsed {
             vm.push(p);
         }
