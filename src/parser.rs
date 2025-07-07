@@ -1,6 +1,9 @@
 use crate::interp::Instruction;
 use crate::lexers::Token;
 
+#[cfg(test)]
+mod tests;
+
 fn op_order(op: &Token) -> u8 {
     match op {
         Token::Add => 1,

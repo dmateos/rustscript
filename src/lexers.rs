@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum Token {
     Add,
@@ -8,6 +11,7 @@ pub enum Token {
     Semicolon,
     OpenParen,
     CloseParen,
+    Loop,
     Ident(String),
     Number(i64),
     Function(String),
@@ -129,6 +133,7 @@ impl Lexer {
     fn match_reserved(&self, ident: &str) -> Token {
         match ident {
             "func" => Token::Function(ident.to_string()),
+            "loop" => Token::Loop,
             _ => Token::Ident(ident.to_string())
         }
     }

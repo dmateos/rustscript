@@ -3,7 +3,7 @@ use std::collections::HashMap;
 #[cfg(test)]
 mod tests;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Instruction {
     Add,
     Mult,

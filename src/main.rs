@@ -1,5 +1,3 @@
-#![cfg(not(test))] 
-
 mod interp;
 mod lexers;
 mod parser;
