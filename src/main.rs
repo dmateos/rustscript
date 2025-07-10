@@ -2,6 +2,14 @@ mod interp;
 mod lexers;
 mod parser;
 use interp::Instruction;
+use std::fs;
+use std::io;
+
+#[allow(dead_code)]
+fn read_file(filepath: &str) -> Result<String, io::Error> {
+    let contents = fs::read_to_string(filepath)?;
+    Ok(contents)
+}
 
 fn main() {
     // get user input from first arg

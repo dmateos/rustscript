@@ -81,7 +81,7 @@ impl VirtualMachine {
                 }
                 Instruction::Store(s) => {
                     let var = self.stack.pop().unwrap();
-                    self.symbol_table.insert(s.to_string(), var);
+                    self.symbol_table.insert(s.into(), var);
                 }
             }
             self.advance();

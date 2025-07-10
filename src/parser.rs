@@ -46,7 +46,7 @@ pub fn parse_statement(tokens: &[Token]) -> Vec<Instruction>  {
     match tokens {
         [Token::Ident(name), Token::Assign, rest @ ..] => {
             let mut instructions = parse_expression(rest.to_vec());
-            instructions.push(Instruction::Store(name.to_string()));
+            instructions.push(Instruction::Store(name.into()));
             instructions
 
         }

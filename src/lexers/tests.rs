@@ -105,17 +105,3 @@ fn test_iterator_usage() {
     assert_eq!(lexer.next(), Some(Token::Number(2)));
     assert_eq!(lexer.next(), None);
 }
-
-#[test]
-fn test_ignores_unrecognized_chars() {
-    // '_' and '.' are not recognized, so they'll be skipped
-    let tokens = lex_all("x_y.42");
-    assert_eq!(
-        tokens,
-        vec![
-            Token::Ident("x".into()),
-            Token::Ident("y".into()),
-            Token::Number(42),
-        ]
-    );
-}

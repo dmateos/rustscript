@@ -132,9 +132,9 @@ impl Lexer {
 
     fn match_reserved(&self, ident: &str) -> Token {
         match ident {
-            "func" => Token::Function(ident.to_string()),
+            "func" => Token::Function(ident.into()),
             "loop" => Token::Loop,
-            _ => Token::Ident(ident.to_string())
+            _ => Token::Ident(ident.into())
         }
     }
 }
