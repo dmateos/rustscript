@@ -15,6 +15,7 @@ pub enum Token {
     Ident(String),
     Number(i64),
     Function(String),
+    Print,
 }
 
 pub struct Lexer {
@@ -134,6 +135,7 @@ impl Lexer {
         match ident {
             "func" => Token::Function(ident.into()),
             "loop" => Token::Loop,
+            "print" => Token::Print,
             _ => Token::Ident(ident.into())
         }
     }

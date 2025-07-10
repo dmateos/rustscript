@@ -49,7 +49,11 @@ pub fn parse_statement(tokens: &[Token]) -> Vec<Instruction>  {
             instructions.push(Instruction::Store(name.into()));
             instructions
 
-        }
+        },
+        [Token::Print] => { 
+            let instructions = vec![Instruction::Print];
+            instructions
+        },
         _ => { 
             parse_expression(tokens.to_vec())
         },
